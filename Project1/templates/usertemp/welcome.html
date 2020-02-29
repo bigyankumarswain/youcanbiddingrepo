@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container-fluid" >
+      <div class="row">
+                      <div class="col-md-2">
+                          <h5><a class="nav-link" href="{% url 'user_welcome' %}" style="color:brown;border-radius: 10px;border: 1px dotted firebrick;margin-right:30px;background-color: greenyellow;margin-top: 30px"><i class="fa fa-home"></i>Home</a></h5>
+                          <h5><a class="nav-link" href="{% url 'buying' %}" style="color:brown;border-radius: 10px;border: 1px dotted firebrick;margin-right:30px;background-color: greenyellow">Byer</a></h5>
+                          <h5><a class="nav-link" href="{% url 'selling' %}" style="color:brown;border-radius: 10px;border: 1px dotted firebrick;margin-right:30px;background-color: greenyellow">Seller</a></h5>
+                          <h6><a class="nav-link" href="{% url 'change_pswd' %}" style="color:brown;border-radius: 10px;border: 1px dotted firebrick;margin-right:30px;background-color: greenyellow">Change Password</a></h6>
+                          <h5><a class="nav-link" href="{% url 'logout' %}" style="color:brown;border-radius: 10px;border: 1px dotted firebrick;margin-right:30px;background-color: greenyellow;margin-bottom: 320px">Logout</a></h5>
+                      </div>
+         <div class="col-md-10">
+                  <div style="margin-top: 30px">
+{% if sell %}
+                          <p style="font-family: cursive;border-radius: 10px;border: 1px dotted firebrick;margin-right:30px;background-color: greenyellow;text-align: center;color: darkred"><font size="5">{{ data.name }}</font> you can Sell what ever product you want to sell .</p>
+  <div class="container" style="text-align: center">
+  <a href="{% url 'selling' %}" class="btn btn-dark"><i class="fa fa-home"></i>Home</a>
+  <a href="{% url 'add_product' %}" class="btn btn-success">Add-Product</a>
+  <a href="{% url 'viewallproduct' %}" class="btn btn-info">Your-Product-List</a>
+  <a href="" class="btn btn-danger">Remove-Product</a>
+  <a href="{% url 'bid_details' %}" class="btn btn-secondary">Bidding-Details</a>
+  <div class="btn-group">
+  <button type="button" class="btn btn-primary">Product-Status</button>
+  <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
+  </button>
+  <div class="dropdown-menu" style="background-color: greenyellow;font-family: 'Arial Black'">
+    <a class="dropdown-item " href="{% url 'product_bid' %}">Bidding</a>
+    <a class="dropdown-item " href="{% url 'product_not_bid' %}">Not-Bid</a>
+    <a class="dropdown-item " href="{% url 'product_sold' %}">Sold</a>
+  </div>
+</div>
+</div><br>
+                          {% for x in messages %}
+                              <h4 align="center">{{ x }}</h4>
+                          {% endfor %}
+        <div class="container col-md-8" style="text-align: center">
+                          {% if add %}
+                              <h4>{{ add }}</h4><br>
+<form action="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+    <div class="form-group" style="font-size: 20px">
+      <input type="text" class="form-control" placeholder="Enter Product Name" name="name" required style="border:1px solid darkred"><br>
+      <input type="file" class="form-control" name="img" required style="border:1px solid darkred"><br>
+      <input type="number" class="form-control" placeholder="Starting Bid Price" name="minbidprice" required style="border:1px solid darkred"><br>
+        <textarea class="form-control" placeholder="Product Description" name="details" required style="border:1px solid darkred"></textarea>
+    </div>
+    <button type="submit" class="btn btn-success" style="color: black ;border:2px solid darkred">Add Product</button>
+  </form>
+                          {% elif allProduct %}
+                              <h4>View Your All Product</h4><br>
+                        <table  align="center" width="900"  class="table table-hover">
+                        <tr style="color: darkred;border-bottom: 2px solid green;border-top: 2px solid green;font-family: Arial;font-size: 20px">
+                        <th>Product</th>
+                        <th>Name</th>
+                        <th>Start-Price</th>
+                        <th>Status</th>
+                        <th>Description</th>
+                    </tr>
+                    {% for x in allProduct %}
+                        <tr>
+                        <th><a href="{{ x.image.url }}"><img src="{{ x.image.url }}" height="40"></a></th>
+                        <th>{{ x.pname }}</th>
+                        <th>{{ x.minprice }}</th>
+                        <th>{{ x.status }}</th>
+                        <th>{{ x.discription }}</th>
+                    </tr>
+                    {% endfor %}
+                </table>
+                          {% elif notbid %}
+                              <h4>View Your All Not-Bidding Products</h4><br>
+                              <table  align="center" width="900"  class="table table-hover">
+                        <tr style="color: darkred;border-bottom: 2px solid green;border-top: 2px solid green;font-family: Arial;font-size: 20px">
+                        <th>Product</th>
+                        <th>Name</th>
+                        <th>Start-Price</th>
+                        <th>Description</th>
+                        <th>Add To Bid</th>
+                    </tr>
+                    {% for x in notbid %}
+                        <tr>
+                        <th><a href="{{ x.image.url }}"><img src="{{ x.image.url }}" height="40"></a></th>
+                        <th>{{ x.pname }}</th>
+                        <th>{{ x.minprice }}</th>
+                        <th>{{ x.discription }}</th>
+                        <th><a href="{% url 'add_to_bid'  x.pid  %}" class="btn btn-success"><span>&checkmark;</span></a></th>
+                    </tr>
+                    {% endfor %}
+                </table>
+                          {% elif bid %}
+                              <h4>View Your All  Bidding Products</h4><br>
+                 <table  align="center" width="900"  class="table table-hover">
+                        <tr style="color: darkred;border-bottom: 2px solid green;border-top: 2px solid green;font-family: Arial;font-size: 20px">
+                        <th>Product</th>
+                        <th>Name</th>
+                        <th>Start-Price</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                    </tr>
+                    {% for x in bid %}
+                        <tr>
+                        <th><a href="{{ x.image.url }}"><img src="{{ x.image.url }}" height="40"></a></th>
+                        <th>{{ x.pname }}</th>
+                        <th>{{ x.minprice }}</th>
+                        <th>{{ x.discription }}</th>
+                        <th>
+                            <a href="{% url 'bid_info' x.pid %}" class="btn btn-primary"><span class="spinner-border spinner-border-sm"></span> Bidding...</a>
+                        </th>
+                    </tr>
+                    {% endfor %}
+                </table>
+                          {% elif bid_info %}
+                              <h4>View Bidding Info of This Products</h4><br>
+                              <table  align="center" width="900"  class="table table-hover">
+                        <tr style="color: darkred;border-bottom: 2px solid green;border-top: 2px solid green;font-family: Arial;font-size: 20px">
+                        <th>User</th>
+                        <th>Product</th>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                    </tr>
+                    {% for x in bid_info %}
+                        <tr>
+                        <th>{{x.uid.name}}</th>
+                        <th><a href="{{ x.pid.image.url }}"><img src="{{ x.pid.image.url }}" height="40"></a></th>
+                        <th>{{ x.pid.pname }}</th>
+                        <th>{{ x.amount }}</th>
+                        <th>{{ x.date }}</th>
+                        <th>{{ x.time }}</th>
+                    </tr>
+                    {% endfor %}
+                </table>
+                          {% elif bid_details %}
+                              <h4>View Your all bidding Info</h4><br>
+                              <table  align="center" width="900"  class="table table-hover">
+                        <tr style="color: darkred;border-bottom: 2px solid green;border-top: 2px solid green;font-family: Arial;font-size: 20px">
+                        <th>Product</th>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                    </tr>
+                    {% for x in bid_details %}
+                        <tr>
+                        <th><a href="{{ x.pid.image.url }}"><img src="{{ x.pid.image.url }}" height="40"></a></th>
+                        <th>{{ x.pid.pname }}</th>
+                        <th>{{ x.amount }}</th>
+                        <th>{{ x.date }}</th>
+                        <th>{{ x.time }}</th>
+                    </tr>
+                    {% endfor %}
+                </table>
+                          {% endif %}
+                          </div>
+{% elif buy %}
+        <p style="font-family: cursive;border-radius: 10px;border: 1px dotted firebrick;margin-right:30px;background-color: greenyellow;text-align: center;color: darkred"><font size="5">{{ data.name }}</font> you can Buy what ever product you want to buy .</p>
+        <div class="container" style="text-align: center">
+        <h4 align="center">You can Bid any Product .</h4><br>
+        {% for x in messages %}
+                              <h4 align="center" style="color: red">{{ x }}</h4>
+        {% endfor %}
+         <div class="row">
+         {% if allbid %}
+             {% for x in allbid %}
+                 {% if x.uid_id != data.uid %}
+             <div class="col-md-3" style="margin-bottom: 20px">
+             <table bgcolor="#f5f5f5">
+                 <tr>
+                     <th><a href="{{ x.pid.image.url }}"><img src="{{ x.pid.image.url }}" height="200" width="100" style="margin-top: 20px"></a></th>
+                 </tr>
+                 <tr style="text-align: center"><th>{{ x.pid.pname }}</th></tr>
+                 <tr><th>Price : {{ x.maxamount }}</th></tr>
+                 <tr><th><div class="btn-group">
+   <button type="button" class="btn btn-info">Product-Info</button>
+  <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
+  </button>
+  <div class="dropdown-menu" style="background-color: greenyellow;font-family: 'Arial Black'">
+    <a class="dropdown-item ">{{ x.pid.discription }}</a>
+    <a class="dropdown-item ">starting price : {{ x.pid.minprice }}</a>
+    <a class="dropdown-item " href="{% url 'bid_prices' x.pid.pid %}">All Bidding Details</a>
+  </div></div>
+                 </th></tr>
+                 <tr><th>
+                     <form action="{% url 'bidding_product' %}" method="post">
+                         {% csrf_token %}
+                     <input  name="pid" value="{{ x.pid.pid }}" type="hidden">
+                     <input type="number" placeholder="Enter Your Bid Price" name="bid_price" style="border-radius: 5px;border:2px solid chocolate" required>
+                     <button type="submit" style="color: darkred;border-radius: 5px;border: 2px solid chocolate"> BID</button></form></th></tr>
+             </table>
+             </div>
+                 {% endif %}
+             {% endfor %}
+         {% elif bid_prices %}
+                <table  align="center" width="900"  class="table table-hover">
+                        <tr style="color: darkred;border-bottom: 2px solid green;border-top: 2px solid green;font-family: Arial;font-size: 20px">
+                        <th>User</th>
+                        <th>Product</th>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        </tr>
+                    {% for x in bid_prices %}
+                        <tr>
+                        <th>{{x.uid.name}}</th>
+                        <th><a href="{{ x.pid.image.url }}"><img src="{{ x.pid.image.url }}" height="40"></a></th>
+                        <th>{{ x.pid.pname }}</th>
+                        <th>{{ x.amount }}</th>
+                        <th>{{ x.date }}</th>
+                        <th>{{ x.time }}</th>
+                        </tr>
+                    {% endfor %}
+                </table>
+         {% else %}
+                     <h4 align="center" style="color: red">"Sorry we have no Product ."</h4>
+         {% endif %}
+         </div>
+     </div>
+{% elif change %}
+    <h2 style="text-align: center;font-family: sans-serif"><span style="border-bottom: 2px solid green">Change Your Password</span></h2><br>
+<form action="" method="post">
+{% csrf_token %}
+    <table width="500" align="center">
+    <tr>
+        <th><h4 style="text-align: center;font-family: sans-serif">Old Password </h4></th>
+        <th><input style="border:1px solid darkred;border-radius: 5px" placeholder="Old Password" name="old" required></th>
+    </tr>
+    <tr>
+        <th><h4 style="text-align: center;font-family: sans-serif">New Password  </h4></th>
+        <th><input style="border:1px solid darkred;border-radius: 5px" placeholder="New Password" name="new" required></th>
+    </tr>
+    <tr>
+        <th><h4 style="text-align: center;font-family: sans-serif">Confirm Password  </h4></th>
+        <th><input style="border:1px solid darkred;border-radius: 5px" placeholder="Confirm Password" name="confirm" required></th>
+    </tr>
+    <tr><th colspan="2" style="text-align: center"><button type="submit" class="btn btn-primary">SUBMIT</button></th></tr>
+    </table>
+                          {% for x in messages %}
+                              <h4 align="center" style="color: red">{{ x }}</h4>
+                          {% endfor %}
+</form>
+{% else %}
+                          <p style="font-family: cursive;border-radius: 10px;border: 1px dotted firebrick;margin-right:30px;background-color: greenyellow;text-align: center;color: darkred"><font size="5">{{ data.name }}</font> you are successfuly logged in .</p>
+                      <h4 style="text-align: center;color: darkred">You can Buying and Selling products in our website . </h4>
+    <div>
+        <h4>Image : <img src="{{ data.image.url }}" height="150" class="rounded-circle"></h4>
+        <h4>Name : {{ data.name }}</h4>
+    <h4>E-mail : {{ data.email }} </h4>
+    <h4>Contact : {{ data.contact }} </h4>
+    </div>
+{% endif %}
+                  </div>
+        </div>
+      </div>
+</div>
+{% endblock %}

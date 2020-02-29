@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<div class="container-fluid">
+<div style="height: 600px" class="img">
+    <div class="row">
+        <div class="offset-5 col-md-5" style="margin-top: 70px;height: 430px;margin-left: 750px;background-color: #8533ff;border-radius: 10px">
+         <p style="text-align: center;color: white;font-family:'Arial Black';font-size: 50px;height: 60px">FREE SIGN UP</p>
+            <p style="text-align: center;color: white">Please SIGN UP Our Web Site</p>
+
+  <form action="{% url 'register' %}" method="post" enctype="multipart/form-data" class="pen">
+      {% csrf_token %}
+      <table>
+          <tr>
+              <th><input type="text" class="pintu"  placeholder="Enter Name" name="name" required size="25"></th>
+              <th><input type="file" class="pintu" name="img" required size="25"></th>
+          </tr>
+          <tr>
+              <th><input type="tel" class="pintu" placeholder="Enter Contact No" name="contact" required size="25"></th>
+              <th><input type="email" class="pintu" placeholder="Enter email" name="email" required size="25" ></th>
+          </tr>
+          <tr>
+              <th><input type="password" class="pintu"  placeholder="Enter password" name="pswd" required size="25"></th>
+              <th> <input type="password" class="pintu"  placeholder="Confirm password" name="pswd1" required size="25"></th>
+          </tr>
+          <tr style="text-align: center">
+              <th colspan="2"><button type="submit" class="btn btn-success">Register</button>
+              <button type="reset" class="btn btn-danger">Clear</button>
+              </th>
+          </tr>
+      </table>
+  </form>
+    {% for x in messages %}
+    <h5 align="center" style="padding: 10px;border: 2px dotted white;color: wheat;margin-top: 10px;border-radius: 10px">{{ x }}</h5>
+    {% endfor %}
+    </div>
+    </div>
+</div><br>
+<div>
+    <h1 style="text-align: center;color: blue">India's No#1 Discount Auction Bidding Platform</h1>
+    <div align="center">
+    <h6 style="width: 800px;font-size: 15px;color: darkslateblue">100% RISKFREE ONLINE AUCTIONS, WIN or BUY BRANDED NEW PRODUCTS AT UP TO 89% HUGE DISCOUNT
+5 Free Credits On Sign Up, Worldwide Shipping , Latest Gadgets, Click To BID Easy Auctions
+60000+ Members , 15000+ Completed Auctions , Always Fair Auction Guaranteed.</h6><br>
+        <form action="{% url 'home' %}">
+        <button type="submit" class="btn btn-success">JOIN NOW</button>
+            </form>
+        </div><br>
+    <div class="mob-img">
+
+    </div><br>
+    <div class="foot-img">
+
+</div>
+</div>
+</div>
+{% endblock %}

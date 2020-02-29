@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="container-fluid">
+<div class="row">
+    <div class="offset-3 col-md-6 shadow-lg p-5" >
+  <h2 class="text-center">Register Here</h2>
+  <form action="{% url 'register' %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+    <div class="form-group" style="font-size: 20px">
+      <label>Name :</label>
+      <input type="text" class="form-control" placeholder="Enter Name" name="name" required style="border:1px solid darkred">
+        <label>Image :</label>
+        <input type="file" class="form-control" name="img" required style="border:1px solid darkred">
+        <label>Contact :</label>
+      <input type="tel" class="form-control" placeholder="Enter Contact No" name="contact" required style="border:1px solid darkred">
+      <label>Email:</label>
+      <input type="email" class="form-control" placeholder="Enter email" name="email" required style="border:1px solid darkred">
+      <label>Password:</label>
+      <input type="password" class="form-control"  placeholder="Enter password" name="pswd" required style="border:1px solid darkred">
+        <label>Confirm Password:</label>
+      <input type="password" class="form-control"  placeholder="Confirm password" name="pswd1" required style="border:1px solid darkred">
+    </div>
+    <button type="submit" class="btn btn-success" style="color: black ;border:2px solid darkred">Register</button>
+  </form>
+    {% for x in messages %}
+    <h4 align="center" style="padding: 10px;border: 2px dotted darkred; background-color: wheat;margin-top: 10px">{{ x }}</h4>
+    {% endfor %}
+    </div>
+</div>
+</div>
+{% endblock %}

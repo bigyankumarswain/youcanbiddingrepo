@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ONLINE PRODUCT BIDDING</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .pintu{
+            border: none;
+            outline: none;
+            color: darkslateblue;
+            font-size: 18px;
+            margin-left: 28px;
+            margin-bottom: 15px;
+            padding: 5px;
+            overflow: hidden;
+            border-radius: 5px;
+        }
+
+.img {
+  /* The image used */
+  background-image: url("{% static 'image/Capture.PNG' %}");
+  min-height: 380px;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+ .mob-img {
+  /* The image used */
+  background-image: url("{% static 'image/mobile-group.png' %}");
+  min-height: 500px;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+.foot-img{
+  /* The image used */
+  background-image: url("{% static 'image/Capture1.PNG' %}");
+  min-height: 150px;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.icn {
+  width: 35px;
+  height: 5px;
+  background-color: black;
+  margin: 6px 0;
+}
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-md navbar-light bg-success sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'image/bid1.png' %}" height="50" width="50"></a>
+        <h1 style="color:black">ONLINE PRODUCT BIDDING</h1>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+<div class="icn"></div>
+<div class="icn"></div>
+<div class="icn"></div>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto" style="font-size: 30px">
+                {% if not data %}
+                    <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'home' %}">Home</a>
+                </li>
+                    <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+                    <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+
+            {% else %}
+                    <li class="nav-item active">
+                    <a class="nav-link" style="color:black">WelCome</a>
+                </li>
+                 <li class="nav-item active">
+                        <a class="nav-link" href="{{ data.image.url }}"><img class="rounded-circle" src="{{ data.image.url }}" height="40"></a>
+                </li>
+                    <li class="nav-item active">
+                    <a class="nav-link" style="color:black">{{ data.name }}</a>
+                    </li>
+            {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+{% block body %}
+
+{% endblock %}
+
+{% include "footer.html" %}
+</body>
+</html>

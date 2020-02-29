@@ -1,0 +1,99 @@
+{% extends 'home.html' %}
+{% block body %}
+<div class="container-fluid" >
+                  <div class="row">
+                      <div class="col-md-2" style="background-color: whitesmoke">
+                          <h5><a class="nav-link" href="{% url 'admmin_welcom' %}" style="color:brown;border-radius: 10px;margin-top: 30px;border: 1px dotted firebrick;margin-right:30px;background-color: greenyellow"><i class="fa fa-home"></i>Home</a></h5>
+                          <h5><a class="nav-link" href="{% url 'pending_reqst' %}" style="color:brown;border-radius: 10px;border: 1px dotted firebrick;margin-right:30px;background-color: greenyellow">Pending Request</a></h5>
+                          <h5><a class="nav-link" href="{% url 'approved_list' %}" style="color:brown;border-radius: 10px;border: 1px dotted firebrick;margin-right:30px;background-color: greenyellow">Approved List</a></h5>
+                          <h5><a class="nav-link" href="{% url 'decline_list' %}" style="color:brown;border-radius: 10px;border: 1px dotted firebrick;margin-right:30px;background-color: greenyellow">Decline List</a></h5>
+                          <h5><a class="nav-link" href="{% url 'admin_logout' %}" style="color:brown;border-radius: 10px;margin-bottom: 320px;border: 1px dotted firebrick;margin-right:30px;background-color: greenyellow">Logout</a></h5>
+                      </div>
+        <div class="col-md-10">
+        <div style="margin-top: 30px">
+            {% if pdata %}
+                <h3 style="text-align: center;color: green">Pending Request List</h3>
+                    <table  align="center" width="900"  class="table table-hover">
+                        <tr style="color: darkred;border-bottom: 2px solid green;border-top: 2px solid green;font-family: Arial;font-size: 20px">
+                        <th>User</th>
+                        <th>U-Name</th>
+                        <th>U-E-mail</th>
+                        <th>U-Contact</th>
+                        <th>U- D O J</th>
+                        <th>Status</th>
+                        <th>Aprove</th>
+                        <th>Decline</th>
+                    </tr>
+                    {% for x in pdata %}
+                        <tr>
+                        <th><a href="{{ x.image.url }}"><img src="{{ x.image.url }}" class="rounded-circle" height="40"></a></th>
+                        <th>{{ x.name }}</th>
+                        <th>{{ x.email }}</th>
+                        <th>{{ x.contact }}</th>
+                        <th>{{ x.date }}</th>
+                        <th>{{ x.status }}</th>
+                        <th><a href="{% url 'approve'  x.uid  %}" class="btn btn-success"><span>&checkmark;</span></a></th>
+                        <th><a href="{% url 'decline' x.uid %}" class="btn btn-danger"><span>&cross;</span></a></th>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% elif adata %}
+                  <h3 style="text-align: center;color: green">Approved Request List</h3>
+                    <table  align="center" width="900"  class="table table-hover">
+                        <tr style="color: darkred;border-bottom: 2px solid green;border-top: 2px solid green;font-family: Arial;font-size: 20px">
+                        <th>User</th>
+                        <th>U-Name</th>
+                        <th>U-E-mail</th>
+                        <th>U-Contact</th>
+                        <th>U- D O J</th>
+                        <th>Status</th>
+                        <th>Decline</th>
+                    </tr>
+                    {% for x in adata %}
+                        <tr>
+                        <th><a href="{{ x.image.url }}"><img src="{{ x.image.url }}" class="rounded-circle" height="40"></a></th>
+                        <th>{{ x.name }}</th>
+                        <th>{{ x.email }}</th>
+                        <th>{{ x.contact }}</th>
+                        <th>{{ x.date }}</th>
+                        <th>{{ x.status }}</th>
+                        <th><a href="{% url 'decline' x.uid %}" class="btn btn-danger"><span>&cross;</span></a></th>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% elif ddata %}
+                <h3 style="text-align: center;color: green">Decline Request List</h3>
+                    <table  align="center" width="900"  class="table table-hover">
+                        <tr style="color: darkred;border-bottom: 2px solid green;border-top: 2px solid green;font-family: Arial;font-size: 20px">
+                        <th>User</th>
+                        <th>U-Name</th>
+                        <th>U-E-mail</th>
+                        <th>U-Contact</th>
+                        <th>U- D O J</th>
+                        <th>Status</th>
+                        <th>Approve</th>
+                        <th>Delete</th>
+                    </tr>
+                    {% for x in ddata %}
+                        <tr>
+                        <th><a href="{{ x.image.url }}"><img src="{{ x.image.url }}" class="rounded-circle" height="40"></a></th>
+                        <th>{{ x.name }}</th>
+                        <th>{{ x.email }}</th>
+                        <th>{{ x.contact }}</th>
+                        <th>{{ x.date }}</th>
+                        <th>{{ x.status }}</th>
+                        <th><a href="{% url 'approve_decline'  x.uid  %}" class="btn btn-success"><span>&checkmark;</span></a></th>
+                        <th><a href="{% url 'delete_decline' x.uid %}" class="btn btn-danger"><span>&cross;</span></a></th>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% elif msg %}
+                <h5 style="border-radius: 10px;text-align: center;background-color: greenyellow;border: 1px dotted forestgreen;color: red;font-family: cursive;padding-bottom: 10px;padding-top: 10px">{{ msg }}</h5>
+                {% else %}
+                <p style="font-family: cursive;border-radius: 10px;border: 1px dotted firebrick;margin-right:30px;background-color: greenyellow;text-align: center;color: darkred"><font size="5">{{ data.name }}</font> you are successfuly logged in</p>
+            {% endif %}
+         </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}
